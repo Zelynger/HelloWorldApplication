@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using HelloWorldApplication.Models;
 
 namespace HelloWorldApplication
 {
@@ -22,6 +24,9 @@ namespace HelloWorldApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<HelloWorldApplicationContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("HelloWorldApplicationContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +48,7 @@ namespace HelloWorldApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=HW}/{action=Index}/{id?}");
             });
         }
     }
